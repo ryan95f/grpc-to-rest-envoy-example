@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+package books.v1;
+
+import "google/api/annotations.proto";
+
+option go_package = "books/v1";
+
+// A service to managed books.
+service BookService {
+
+    // Returns a list of projects.
+    rpc ListBooks(ListBooksRequest) returns(ListBooksResponse) {
+        option (google.api.http) = {
+            get: "/v1/books"
+        };
+    }
+
+    // Returns a book with the given title.
+    rpc GetBook(GetBookRequest) returns(GetBookResponse) {
+        option (google.api.http) = {
+            get: "/v1/books/{title}"
+        };
+    }
+    
+    // Creates a new book. If the book already exists then it
+    // will return an 'ALREADY_EXISTS' error.
+    rpc CreateBook (CreateBookRequest) returns(CreateBookResponse) {
+        option (google.api.http) = {
+            post: "/v1/books",
+            body: "*"
+        };
+    }
+    
+    // Updates an existing book with the given title.
+    rpc UpdateBook(UpdateBookRequest) returns (UpdateBookResponse) {
+        option (google.api.http) = {
+            put: "/v1/books/{title}"
+            body: "book"
+        };
+    }
+    
+    // Deletes a book with the given name.
+    rpc DeleteBook(DeleteBookRequest) returns (DeleteBookResponse) {
+        option (google.api.http) = {
+            delete: "/v1/books/{title}"
+        };
+    }
+}
+
+
+message Book {
+    string title = 1;
+}
+
+message ListBooksRequest {}
+
+message ListBooksResponse {
+    repeated Book books = 1;
+}
+
+message GetBookRequest {
+    string title = 1;
+}
+
+message GetBookResponse {
+    Book book = 1;
+}
+
+message CreateBookRequest {
+    string title = 1;
+}
+
+message CreateBookResponse {
+    Book book = 1;
+}
+
+message UpdateBookRequest {
+    string title = 1;
+    Book book = 2;
+}
+
+message UpdateBookResponse {
+    Book book = 1;
+}
+
+message DeleteBookRequest {
+    string title = 1;
+}
+
+message DeleteBookResponse {
+    bool done = 1;
+}

@@ -1,0 +1,19 @@
+# Build stage
+# FROM alpine:3.7 as builder
+# WORKDIR /app/protoc/
+# COPY protos/* .
+# RUN apk update && \
+#     apk add --no-cache protoc && \
+#     apk add --no-cache wget
+# RUN wget https://github.com/googleapis/googleapis.git && \
+#     protoc -I./googleapis -I. \
+# 		--include_imports \
+# 		--include_source_info \
+#     	--descriptor_set_out=envoy/books.pb protos/books.proto
+
+# Output stage
+FROM envoyproxy/envoy:v1.17-latest
+COPY ./envoy.yaml /etc/envoy/envoy.yaml
+COPY ./protos/books.pb /etc/envoy/protos/books.pb
+RUN chmod go+r /etc/envoy/envoy.yaml && \ 
+    chmod go+r /etc/envoy/protos/books.pb

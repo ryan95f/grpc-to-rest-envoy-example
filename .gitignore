@@ -88,4 +88,4 @@ Temporary Items
 
 # Application files
 googleapis/*
-envoy/books.pb
+protos/books.pb

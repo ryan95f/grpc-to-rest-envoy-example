@@ -1,6 +1,6 @@
 # gRPC to REST Envoy example
 
-An example of how to use the envoy proxy to transcode REST calls to gRPC calls and expose the gRPC service on a common port
+An example of how to use the envoy proxy to transcode REST calls to gRPC calls and expose the gRPC service on a single port.
 
 ## Requirements
 
@@ -46,6 +46,8 @@ To create containers for both `books` and `envoy`, run:
 ```bash
 docker-compose up -d
 ```
+
+This will run the API on port `8080` and the envoy admin view on port `9901`.
 
 ## Validating the Envoy config
 

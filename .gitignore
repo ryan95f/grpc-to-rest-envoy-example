@@ -88,4 +88,5 @@ Temporary Items
 
 # Application files
 googleapis/*
+books-service
 protos/books.pb

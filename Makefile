@@ -1,6 +1,7 @@
 GO := go
 APP_NAME := books-service
 PROTOC_DESCRIPTOR := protos/books.pb
+GOOGLE_APIS_DIR := ../googleapis
 
 edit: build run
 
@@ -11,7 +12,7 @@ run:
 	@${APP_NAME}
 
 protoc:
-	@protoc -I./googleapis -I. \
+	@protoc -I./${GOOGLE_APIS_DIR} -I. \
 		--include_imports \
 		--include_source_info \
     	--descriptor_set_out=${PROTOC_DESCRIPTOR} \

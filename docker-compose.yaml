@@ -3,9 +3,9 @@ services:
   books:
     build:
       context: .
-        dockerfile: Dockerfile.service
-        image: books:v1
-      container_name: books
+      dockerfile: Dockerfile.service
+    image: books:v1
+    container_name: books
   envoy:
     build:
       context: .

@@ -66,5 +66,5 @@ static_resources:
               port_value: 9000
             address:
               socket_address:
-                address: localhost
+                address: books
                 port_value: 9000

@@ -11,6 +11,8 @@ services:
       context: .
       dockerfile: Dockerfile.envoy
     image: books-envoy:v1
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
     container_name: books_envoy
     ports:
         - 9901:9901

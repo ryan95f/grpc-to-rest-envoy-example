@@ -90,6 +90,6 @@ To validate that your Envoy config is valid, run:
 
 ```bash
 docker run --rm \
-       -v $(pwd)/envoy/envoy.yaml:/envoy.yaml envoyproxy/envoy:v1.17-latest \
+       -v $(pwd)/envoy.yaml:/envoy.yaml envoyproxy/envoy:v1.17-latest \
        --mode validate -c envoy.yaml
 ```

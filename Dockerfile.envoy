@@ -14,7 +14,5 @@ RUN protoc -I./googleapis/googleapis-master -I. \
 
 # Output stage
 FROM envoyproxy/envoy:v1.17-latest
-COPY ./envoy.yaml /etc/envoy/envoy.yaml
 COPY --from=builder /app/protoc/books.pb /etc/envoy/protos/books.pb
-RUN chmod go+r /etc/envoy/envoy.yaml && \ 
-    chmod go+r /etc/envoy/protos/books.pb
+RUN chmod go+r /etc/envoy/protos/books.pb

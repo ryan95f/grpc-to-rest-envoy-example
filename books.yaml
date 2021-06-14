@@ -28,13 +28,22 @@ spec:
             - containerPort: 9000
               protocol: TCP
         - name: envoy
-          image: books-envoy:v1 
+          image: books-envoy:v1
+          volumeMounts:
+          - name: envoy-config
+            mountPath: /etc/envoy/envoy.yaml
           imagePullPolicy: Never
           ports:
             - containerPort: 8080
               protocol: TCP
             - containerPort: 9901
               protocol: TCP
+    volumens:
+      - name: envoy-config
+        configMap:
+          name: books-config-map
+          - key: envoy.yaml
+            path: envoy.yaml
 ---
 apiVersion: v1
 kind: Service

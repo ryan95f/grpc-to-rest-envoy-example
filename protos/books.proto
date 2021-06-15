@@ -48,46 +48,69 @@ service BookService {
     }
 }
 
-
+// Definition of a book
 message Book {
+    // Required. The title of the book.
     string title = 1;
 }
 
+// Request for the `ListBooks` method.
 message ListBooksRequest {}
 
+// Response for the `ListBooks` method.
 message ListBooksResponse {
+
+    // List of books that are stored in the service.
     repeated Book books = 1;
 }
 
+// Request for the `GetBook` method.
 message GetBookRequest {
     string title = 1;
 }
 
+// Response for the `GetBook` method.
 message GetBookResponse {
+    // Resulting book that matches the `title` in the request.
     Book book = 1;
 }
 
+// Request for the `CreateBook` method.
 message CreateBookRequest {
+    // Required. The title of the book to create.
     string title = 1;
 }
 
+// Response for the `CreateBook` method.
 message CreateBookResponse {
+    // The created book.
     Book book = 1;
 }
 
+// Request for the `UpdateBook` method.
 message UpdateBookRequest {
+    // Required. The title of the book to update.
     string title = 1;
+
+    // Required. The updated data that will be applied
+    // to the book that matches the `title`.
     Book book = 2;
 }
 
+// Response for the `UpdateBook` method.
 message UpdateBookResponse {
+    // The updated book.
     Book book = 1;
 }
 
+// Request for `DeleteBook` method.
 message DeleteBookRequest {
+    // Required. The title of the book to delete.
     string title = 1;
 }
 
+// Response for `DeleteBook` method.
 message DeleteBookResponse {
+    // Flag to indicate if the delete operation was successful.
     bool done = 1;
 }

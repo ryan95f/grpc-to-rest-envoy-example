@@ -1,19 +1,21 @@
 version: '3.6'
 services:
-    hello:
-        build:
-            context: .
-            dockerfile: Dockerfile.service
-        image: hello:v1
-        container_name: hello
-    envoy:
-        build:
-            context: .
-            dockerfile: Dockerfile.envoy
-        image: hello-envoy:v1
-        container_name: hello_envoy
-        ports:
-            - 9901:9901
-            - 8080:8080            
-        depends_on: 
-            - hello
+  books:
+    build:
+      context: .
+      dockerfile: Dockerfile.service
+    image: books:v1
+    container_name: books
+  envoy:
+    build:
+      context: .
+      dockerfile: Dockerfile.envoy
+    image: books-envoy:v1
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+    container_name: books_envoy
+    ports:
+        - 9901:9901
+        - 8080:8080            
+    depends_on: 
+        - books

@@ -1,4 +1,4 @@
-module books-service
+module github.com/ryan95z/grpc-to-rest-envoy-example/books-service
 
 go 1.15
 

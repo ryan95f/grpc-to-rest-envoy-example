@@ -25,7 +25,7 @@ func main() {
 		appHost = host
 	}
 
-	fmt.Println("Starting grpc server")
+	log.Println("Starting grpc server")
 	address := fmt.Sprintf("%s:%d", appHost, appPort)
 
 	lis, err := net.Listen("tcp", address)
@@ -37,7 +37,7 @@ func main() {
 	grpcServer := grpc.NewServer(opts...)
 	pb.RegisterBookServiceServer(grpcServer, &pb.BooksEndpoint{})
 
-	fmt.Printf("Server running on %s\n", address)
+	log.Printf("Server running on %s\n", address)
 	if grpcServer.Serve(lis) != nil {
 		log.Fatalf("Failed to serve: %v", err)
 	}

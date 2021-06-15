@@ -7,21 +7,26 @@ import (
 	"google.golang.org/grpc/status"
 )
 
+// Using an array here so a database is not required.
+// However, multiple instances of the book service will not
+// share the same data.
 var (
 	books []*Book = []*Book{}
 )
 
+// BooksEndpoint represents an implementation of the gRPC books service.
 type BooksEndpoint struct {
 	UnsafeBookServiceServer
 }
 
+// ListBooks returns all books that are stored in the service.
 func (be *BooksEndpoint) ListBooks(ctx context.Context, request *ListBooksRequest) (*ListBooksResponse, error) {
 	return &ListBooksResponse{
 		Books: books,
 	}, nil
 }
 
-// Returns a book with the given title.
+// GetBook returns a book with the given title.
 func (be *BooksEndpoint) GetBook(ctx context.Context, request *GetBookRequest) (*GetBookResponse, error) {
 	title := request.Title
 	for _, book := range books {
@@ -35,7 +40,7 @@ func (be *BooksEndpoint) GetBook(ctx context.Context, request *GetBookRequest) (
 		status.Errorf(codes.NotFound, "book not found with title %s", title)
 }
 
-// Creates a new book. If the book already exists then it will return an 'ALREADY_EXISTS' error.
+// CreateBook creates a new book and adds it to the service.
 func (be *BooksEndpoint) CreateBook(ctx context.Context, request *CreateBookRequest) (*CreateBookResponse, error) {
 	newBook := new(Book)
 	newBook.Title = request.Title
@@ -46,7 +51,7 @@ func (be *BooksEndpoint) CreateBook(ctx context.Context, request *CreateBookRequ
 	}, nil
 }
 
-// Updates an existing book with the given title.
+// UpdateBook will update an existing book with the given title.
 func (be *BooksEndpoint) UpdateBook(ctx context.Context, request *UpdateBookRequest) (*UpdateBookResponse, error) {
 	title := request.Title
 	updatedBook := request.Book
@@ -64,7 +69,7 @@ func (be *BooksEndpoint) UpdateBook(ctx context.Context, request *UpdateBookRequ
 		status.Errorf(codes.NotFound, "book not found with title %s", title)
 }
 
-// Deletes a book with the given name.
+// DeleteBook removes a book from the service with a given name.
 func (be *BooksEndpoint) DeleteBook(ctx context.Context, reqest *DeleteBookRequest) (*DeleteBookResponse, error) {
 	title := reqest.Title
 	for idx, book := range books {

@@ -1,6 +1,6 @@
 # gRPC to REST Envoy example
 
-An example of how to use the envoy proxy to transcode REST calls to gRPC calls and expose the gRPC service on a single port.
+An example of how to use the envoy proxy to transcode REST requests to gRPC calls and expose the gRPC service on a single port.
 
 ## Requirements
 
@@ -86,12 +86,24 @@ make run
 
 ## Deploying on Kubernetes
 
-An example of how to deploy both the application on Kubernetes has been included, where the following files are provided:
+The books service with envoy can be deployed with Kubernetes. The following files are provided:
 
 * `books-configmap.yaml` - Defines a config map that contains the envoy config for running the service on Kubernetes.
 * `books.yaml` - Defines the deployment and service for running the application. The service uses a `NodePort` and will expose the deployment on port `30001`, which can accept REST and gRPC calls.
 
-**Note**: By default the number of replicas in the deployment is set to 1. Since all data is stored within memory on the container and not in a database, scaling above 1 will result in separate distinct instances as data is not persisted between pods. 
+To deploy the config map:
+
+```bash
+kubectl apply -f books-configmap.yaml
+```
+
+Then to deploy the service and deployment:
+
+```bash
+kubectl apply -f books.yaml
+```
+
+**Note**: By default the number of replicas in the deployment is set to 1. Since the data is stored within memory on the container and not in a database, scaling the deployment above 1 may result in differences in the responses with each request.
 
 ## Validating the Envoy config
 

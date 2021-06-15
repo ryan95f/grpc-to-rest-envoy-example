@@ -2,6 +2,8 @@ package v1
 
 import (
 	context "context"
+	"regexp"
+	"strings"
 
 	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/status"
@@ -28,7 +30,7 @@ func (be *BooksEndpoint) ListBooks(ctx context.Context, request *ListBooksReques
 
 // GetBook returns a book with the given title.
 func (be *BooksEndpoint) GetBook(ctx context.Context, request *GetBookRequest) (*GetBookResponse, error) {
-	title := request.Title
+	title := request.Id
 	for _, book := range books {
 		if book.Title == title {
 			return &GetBookResponse{
@@ -44,6 +46,7 @@ func (be *BooksEndpoint) GetBook(ctx context.Context, request *GetBookRequest) (
 func (be *BooksEndpoint) CreateBook(ctx context.Context, request *CreateBookRequest) (*CreateBookResponse, error) {
 	newBook := new(Book)
 	newBook.Title = request.Title
+	newBook.Id = be.generateBookID(request.Title)
 
 	books = append(books, newBook)
 	return &CreateBookResponse{
@@ -51,9 +54,15 @@ func (be *BooksEndpoint) CreateBook(ctx context.Context, request *CreateBookRequ
 	}, nil
 }
 
+func (be *BooksEndpoint) generateBookID(title string) string {
+	whiteSpaceRegex, _ := regexp.Compile(`\s+`)
+	title = strings.ToLower(title)
+	return whiteSpaceRegex.ReplaceAllString(title, "-")
+}
+
 // UpdateBook will update an existing book with the given title.
 func (be *BooksEndpoint) UpdateBook(ctx context.Context, request *UpdateBookRequest) (*UpdateBookResponse, error) {
-	title := request.Title
+	title := request.Id
 	updatedBook := request.Book
 
 	for _, book := range books {
@@ -71,7 +80,7 @@ func (be *BooksEndpoint) UpdateBook(ctx context.Context, request *UpdateBookRequ
 
 // DeleteBook removes a book from the service with a given name.
 func (be *BooksEndpoint) DeleteBook(ctx context.Context, reqest *DeleteBookRequest) (*DeleteBookResponse, error) {
-	title := reqest.Title
+	title := reqest.Id
 	for idx, book := range books {
 		if book.Title == title {
 			books = append(books[:idx], books[idx+1:]...)

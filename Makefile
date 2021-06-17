@@ -9,7 +9,7 @@ build:
 	@${GO} build -o ${APP_NAME}
 
 run:
-	@${APP_NAME}
+	@./${APP_NAME}
 
 protoc:
 	@protoc -I./${GOOGLE_APIS_DIR} -I. \
